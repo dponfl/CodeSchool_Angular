@@ -7,10 +7,67 @@
 
 #main
   .container(ng-controller='StoreController as store')
-    .product.col-lg-6.col-lg-offset-2(ng-repeat='product in store.products', ng-hide='product.soldOut')
-      h1 {{product.name}}
-      h2.pull-right ${{product.price}}
-      p {{product.description}}
-      button(ng-show='product.canPurchase').btn.btn-primary Add to Cart
+    .product.col-lg-6.col-lg-offset-2(ng-repeat='product in store.products | limitTo:5 | orderBy:"-price"', ng-hide='product.soldOut')
+      .panel.panel-info
+        .panel-heading
+          h1 {{product.name}}
+        .panel-body
+          h2.pull-right {{product.price | currency}}
+          p {{product.description}}
+          .col-sm-12
+            img(ng-src='{{product.images[0].thumb}}')
+            img(ng-src='{{product.images[0].full}}')
+          .col-sm-12.block-button
+            button(ng-show='product.canPurchase').btn.btn-primary Add to Cart
+          .col-sm-12.nav-block-1(ng-controller="PanelController as panel")
+            ul.nav.nav-pills
+              -
+                var some = [
+                {id: 1, text: 'Description', active: 'active'},
+                {id: 2, text: 'Specifications', active: ''},
+                {id: 3, text: 'Reviews', active: ''}
+                ]
+              each el in some
+                li(ng-class="{ active:panel.isSelected('#{el.id}') }")
+                  a(href="", ng-click="panel.selectTab('#{el.id}')") #{el.text}
+
+            .panel.panel-primary(ng-show="panel.isSelected(1)")
+              .panel-heading
+                h4 Description
+              .panel-body
+                p {{product.description}}
+            .panel.panel-primary(ng-show="panel.isSelected(2)")
+              .panel-heading
+                h4 Specifications
+              .panel-body
+                blockquote None yet
+            .panel.panel-primary(ng-show="panel.isSelected(3)")
+              .panel-heading
+                h4 Reviews
+              .panel-body
+                blockquote(ng-repeat="review in product.reviews")
+                  p
+                    b Stars: {{review.stars}}
+                  p {{review.body}}
+                  p
+                    cite by: {{review.author}}
+
+                  .panel.panel-info
+                    .panel-heading
+                      h4 Submit a review
+                    .panel-body
+                      form(name='reviewForm')
+                        .form-group.col-sm-12
+                          select
+                            option(value="1") 1 star
+                            option(value="2") 2 stars
+                            option(value="3") 3 stars
+                            option(value="4") 4 stars
+                            option(value="5") 5 stars
+                        .form-group.col-sm-12
+                          textarea(placeholder="Write a short review of the product...")
+                        .form-group.col-sm-12
+                          label(for="email") by
+                          input(name="email", type="email")#email
 
 
