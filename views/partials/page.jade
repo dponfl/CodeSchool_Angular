@@ -58,16 +58,16 @@
                     .panel-body
                       form(name='reviewForm')
                         .form-group.col-sm-12
-                          select
+                          select.col-sm-7
                             option(value="1") 1 star
                             option(value="2") 2 stars
                             option(value="3") 3 stars
                             option(value="4") 4 stars
                             option(value="5") 5 stars
                         .form-group.col-sm-12
-                          textarea(placeholder="Write a short review of the product...")
+                          textarea(rows='5', placeholder="Write a short review of the product...").col-sm-12
                         .form-group.col-sm-12
-                          label(for="email") by
-                          input(name="email", type="email")#email
+                          label(for="email").col-sm-2 by
+                          input(name="email", type="email")#email.col-sm-10
 
 
