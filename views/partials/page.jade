@@ -11,8 +11,8 @@
       .panel.panel-info
         .panel-heading
           h1 {{product.name}}
+            em.pull-right {{product.price | currency}}
         .panel-body
-          h2.pull-right {{product.price | currency}}
           p {{product.description}}
           .col-sm-12
             img(ng-src='{{product.images[0].thumb}}')
@@ -52,22 +52,29 @@
                   p
                     cite by: {{review.author}}
 
-                  .panel.panel-info
-                    .panel-heading
-                      h4 Submit a review
-                    .panel-body
-                      form(name='reviewForm')
-                        .form-group.col-sm-12
-                          select.col-sm-7
-                            option(value="1") 1 star
-                            option(value="2") 2 stars
-                            option(value="3") 3 stars
-                            option(value="4") 4 stars
-                            option(value="5") 5 stars
-                        .form-group.col-sm-12
-                          textarea(rows='5', placeholder="Write a short review of the product...").col-sm-12
-                        .form-group.col-sm-12
-                          label(for="email").col-sm-2 by
-                          input(name="email", type="email")#email.col-sm-10
+                .panel.panel-info
+                  .panel-heading
+                    h4 Submit a review
+                  .panel-body
+                    form(name='reviewForm', ng-controller='ReviewController as reviewCtrl', ng-submit='reviewCtrl.addReview(product)')
+                      .form-group.col-sm-12
+                        blockquote
+                          b Stars: {{reviewCtrl.review.stars}}
+                          p {{reviewCtrl.review.body}}
+                          cite by: {{reviewCtrl.review.author}}
+                      .form-group.col-sm-12
+                        select(ng-model='reviewCtrl.review.stars').col-sm-12
+                          option(value="1") 1 star
+                          option(value="2") 2 stars
+                          option(value="3") 3 stars
+                          option(value="4") 4 stars
+                          option(value="5") 5 stars
+                      .form-group.col-sm-12
+                        textarea(ng-model='reviewCtrl.review.body', rows='5', placeholder="Write a short review of the product...").col-sm-12
+                      .form-group.col-sm-12
+                        label(for="email").col-sm-2 by
+                        input(ng-model='reviewCtrl.review.author', name="email", type="email")#email.col-sm-10
+                      .form-group.col-sm-12
+                        input(type='submit', value='Submit Review').btn.btn-primary.pull-right
 
 
