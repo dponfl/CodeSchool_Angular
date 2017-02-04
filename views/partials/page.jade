@@ -10,7 +10,8 @@
     .product.col-lg-6.col-lg-offset-2(ng-repeat='product in store.products | limitTo:5 | orderBy:"-price"', ng-hide='product.soldOut')
       .panel.panel-info
         .panel-heading
-          h1 {{product.name}}
+          product-title
+          //h1 {{product.name}}
             em.pull-right {{product.price | currency}}
         .panel-body
           p {{product.description}}
@@ -56,25 +57,24 @@
                   .panel-heading
                     h4 Submit a review
                   .panel-body
-                    form(name='reviewForm', ng-controller='ReviewController as reviewCtrl', ng-submit='reviewCtrl.addReview(product)')
+                    form(name='reviewForm', ng-controller='ReviewController as reviewCtrl', ng-submit='reviewForm.$valid && reviewCtrl.addReview(product)', novalidate)
                       .form-group.col-sm-12
                         blockquote
                           b Stars: {{reviewCtrl.review.stars}}
                           p {{reviewCtrl.review.body}}
                           cite by: {{reviewCtrl.review.author}}
                       .form-group.col-sm-12
-                        select(ng-model='reviewCtrl.review.stars').col-sm-12
-                          option(value="1") 1 star
-                          option(value="2") 2 stars
-                          option(value="3") 3 stars
-                          option(value="4") 4 stars
-                          option(value="5") 5 stars
+                        label(for="stars") Stars
+                        select(ng-model='reviewCtrl.review.stars', ng-options='stars for stars in [5,4,3,2,1]', required)#stars.col-sm-12
+                          option(value="") Rate the product
                       .form-group.col-sm-12
-                        textarea(ng-model='reviewCtrl.review.body', rows='5', placeholder="Write a short review of the product...").col-sm-12
+                        label(for="review") Review
+                        textarea(ng-model='reviewCtrl.review.body', rows='5', placeholder="Write a short review of the product...", required)#review.col-sm-12
                       .form-group.col-sm-12
                         label(for="email").col-sm-2 by
-                        input(ng-model='reviewCtrl.review.author', name="email", type="email")#email.col-sm-10
+                        input(ng-model='reviewCtrl.review.author', name="email", type="email", required)#email.col-sm-10
+
                       .form-group.col-sm-12
                         input(type='submit', value='Submit Review').btn.btn-primary.pull-right
-
+                      .col-sm-12 Review form is {{reviewForm.$valid}}
 
