@@ -1,0 +1,24 @@
+.panel.panel-info
+  .panel-heading
+    h4 Submit a review
+  .panel-body
+    form(name='reviewForm', ng-submit='reviewForm.$valid && reviewCtrl.addReview(product)', novalidate)
+      .form-group.col-sm-12
+        blockquote
+          b Stars: {{reviewCtrl.review.stars}}
+          p {{reviewCtrl.review.body}}
+          cite by: {{reviewCtrl.review.author}}
+      .form-group.col-sm-12
+        label(for="stars") Stars
+        select(ng-model='reviewCtrl.review.stars', ng-options='stars for stars in [5,4,3,2,1]', required)#stars.col-sm-12
+          option(value="") Rate the product
+      .form-group.col-sm-12
+        label(for="review") Review
+        textarea(ng-model='reviewCtrl.review.body', rows='5', placeholder="Write a short review of the product...", required)#review.col-sm-12
+      .form-group.col-sm-12
+        label(for="email").col-sm-2 by
+        input(ng-model='reviewCtrl.review.author', name="email", type="email", required)#email.col-sm-10
+
+      .form-group.col-sm-12
+        input(type='submit', value='Submit Review').btn.btn-primary.pull-right
+      .col-sm-12 Review form is {{reviewForm.$valid}}

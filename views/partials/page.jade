@@ -20,61 +20,6 @@
             img(ng-src='{{product.images[0].full}}')
           .col-sm-12.block-button
             button(ng-show='product.canPurchase').btn.btn-primary Add to Cart
-          .col-sm-12.nav-block-1(ng-controller="PanelController as panel")
-            ul.nav.nav-pills
-              -
-                var some = [
-                {id: 1, text: 'Description', active: 'active'},
-                {id: 2, text: 'Specifications', active: ''},
-                {id: 3, text: 'Reviews', active: ''}
-                ]
-              each el in some
-                li(ng-class="{ active:panel.isSelected('#{el.id}') }")
-                  a(href="", ng-click="panel.selectTab('#{el.id}')") #{el.text}
 
-            .panel.panel-primary(ng-show="panel.isSelected(1)")
-              .panel-heading
-                h4 Description
-              .panel-body
-                p {{product.description}}
-            .panel.panel-primary(ng-show="panel.isSelected(2)")
-              .panel-heading
-                h4 Specifications
-              .panel-body
-                blockquote None yet
-            .panel.panel-primary(ng-show="panel.isSelected(3)")
-              .panel-heading
-                h4 Reviews
-              .panel-body
-                blockquote(ng-repeat="review in product.reviews")
-                  p
-                    b Stars: {{review.stars}}
-                  p {{review.body}}
-                  p
-                    cite by: {{review.author}}
-
-                .panel.panel-info
-                  .panel-heading
-                    h4 Submit a review
-                  .panel-body
-                    form(name='reviewForm', ng-controller='ReviewController as reviewCtrl', ng-submit='reviewForm.$valid && reviewCtrl.addReview(product)', novalidate)
-                      .form-group.col-sm-12
-                        blockquote
-                          b Stars: {{reviewCtrl.review.stars}}
-                          p {{reviewCtrl.review.body}}
-                          cite by: {{reviewCtrl.review.author}}
-                      .form-group.col-sm-12
-                        label(for="stars") Stars
-                        select(ng-model='reviewCtrl.review.stars', ng-options='stars for stars in [5,4,3,2,1]', required)#stars.col-sm-12
-                          option(value="") Rate the product
-                      .form-group.col-sm-12
-                        label(for="review") Review
-                        textarea(ng-model='reviewCtrl.review.body', rows='5', placeholder="Write a short review of the product...", required)#review.col-sm-12
-                      .form-group.col-sm-12
-                        label(for="email").col-sm-2 by
-                        input(ng-model='reviewCtrl.review.author', name="email", type="email", required)#email.col-sm-10
-
-                      .form-group.col-sm-12
-                        input(type='submit', value='Submit Review').btn.btn-primary.pull-right
-                      .col-sm-12 Review form is {{reviewForm.$valid}}
+          product-panel
 

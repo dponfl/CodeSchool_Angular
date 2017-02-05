@@ -1,0 +1,34 @@
+.col-sm-12.nav-block-1
+  ul.nav.nav-pills
+    -
+      var some = [
+      {id: 1, text: 'Description', active: 'active'},
+      {id: 2, text: 'Specifications', active: ''},
+      {id: 3, text: 'Reviews', active: ''}
+      ]
+    each el in some
+      li(ng-class="{ active:panel.isSelected('#{el.id}') }")
+        a(href="", ng-click="panel.selectTab('#{el.id}')") #{el.text}
+
+  .panel.panel-primary(ng-show="panel.isSelected(1)")
+    .panel-heading
+      h4 Description
+    .panel-body
+      p {{product.description}}
+  .panel.panel-primary(ng-show="panel.isSelected(2)")
+    .panel-heading
+      h4 Specifications
+    .panel-body
+      blockquote None yet
+  .panel.panel-primary(ng-show="panel.isSelected(3)")
+    .panel-heading
+      h4 Reviews
+    .panel-body
+      blockquote(ng-repeat="review in product.reviews")
+        p
+          b Stars: {{review.stars}}
+        p {{review.body}}
+        p
+          cite by: {{review.author}}
+
+      submit-review
